@@ -1,15 +1,17 @@
 package com.discgolf.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.discgolf.dao.DiscDAO;
 import com.discgolf.dao.DiscDAOImpl;
 import com.discgolf.model.Disc;
 import com.discgolf.model.DiscSearchCriteria;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class DiscServiceImpl implements DiscService {
-    private static final Logger logger = Logger.getLogger(DiscServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DiscServiceImpl.class);
     private final DiscDAO discDAO;
 
     public DiscServiceImpl() {
