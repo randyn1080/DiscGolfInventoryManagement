@@ -253,6 +253,7 @@ public class DiscDAOImpl implements DiscDAO {
                 }
             }
         }
+        return discs;
     }
 
     @Override
