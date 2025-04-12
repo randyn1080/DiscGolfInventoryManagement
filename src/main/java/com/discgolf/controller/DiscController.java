@@ -37,7 +37,7 @@ public class DiscController {
 
         app.get("/discs",this::getAllDiscs);
         app.get("/discs/{id}", this::getDiscById);
-        app.get("/discs/search", this::searchDisc);
+        app.post("/discs/search", this::searchDisc);
         app.post("/discs", this::createDisc);
         app.put("/discs/{id}", this::updateDisc);
         app.delete("discs/{id}", this::deleteDisc);
