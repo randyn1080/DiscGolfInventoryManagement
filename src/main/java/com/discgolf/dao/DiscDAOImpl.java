@@ -94,7 +94,7 @@ public class DiscDAOImpl implements DiscDAO {
             while (rs.next()) {
                 discs.add(extractDiscFromResultSet(rs));
             }
-            logger.info("Retrieved {} discs from database", discs.size());
+            logger.info("Retrieved {} discs from database with getAllDiscs method", discs.size());
         } catch (SQLException e) {
             logger.error("Error while retrieving discs", e);
         } finally {
@@ -227,7 +227,7 @@ public class DiscDAOImpl implements DiscDAO {
             while (rs.next()) {
                 discs.add(extractDiscFromResultSet(rs));
             }
-            logger.info("Retrieved {} discs from database", discs.size());
+            logger.info("Retrieved {} discs from database with searchDiscs method", discs.size());
         } catch (SQLException e) {
 
         } finally {

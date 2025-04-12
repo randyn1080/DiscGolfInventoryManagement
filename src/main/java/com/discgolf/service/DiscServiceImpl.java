@@ -14,10 +14,17 @@ public class DiscServiceImpl implements DiscService {
     private static final Logger logger = LoggerFactory.getLogger(DiscServiceImpl.class);
     private final DiscDAO discDAO;
 
+    /**
+     * Default Constructor
+     */
     public DiscServiceImpl() {
         this.discDAO = new DiscDAOImpl();
     }
 
+    /**
+     * Constructor for testing with mockito
+     * @param discDAO mock discDAO
+     */
     public DiscServiceImpl(DiscDAO discDAO) {
         this.discDAO = discDAO;
     }
@@ -64,7 +71,11 @@ public class DiscServiceImpl implements DiscService {
      */
     @Override
     public List<Disc> searchDiscs(DiscSearchCriteria criteria) {
-        return List.of();
+        if (criteria == null) {
+            logger.warn("Service Call: Search criteria is null");
+        }
+        logger.info("Service Call: Searching for discs with criteria: {}", criteria);
+        return discDAO.searchDiscs(criteria);
     }
 
     /**
@@ -75,7 +86,7 @@ public class DiscServiceImpl implements DiscService {
      */
     @Override
     public boolean updateDisc(Disc disc) {
-        return false;
+        return discDAO.updateDisc(disc);
     }
 
     /**
@@ -86,6 +97,6 @@ public class DiscServiceImpl implements DiscService {
      */
     @Override
     public boolean deleteDisc(int discId) {
-        return false;
+        return discDAO.deleteDisc(discId);
     }
 }
