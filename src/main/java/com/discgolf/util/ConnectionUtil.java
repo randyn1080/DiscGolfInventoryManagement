@@ -35,6 +35,5 @@ public class ConnectionUtil {
             logger.error("Error connecting to the database", e);
             throw new RuntimeException("Error connecting to the database", e);
         }
-
     }
 }
