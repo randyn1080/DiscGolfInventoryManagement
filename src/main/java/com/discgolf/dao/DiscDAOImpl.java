@@ -68,18 +68,6 @@ public class DiscDAOImpl implements DiscDAO {
         return null;
     }
 
-    private void discStatementGenerator(Disc disc, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setString(1, disc.getManufacturer());
-        preparedStatement.setString(2, disc.getMold());
-        preparedStatement.setString(3, disc.getColor());
-        preparedStatement.setInt(4, disc.getWeight());
-        preparedStatement.setInt(5, disc.getSpeed());
-        preparedStatement.setInt(6, disc.getGlide());
-        preparedStatement.setInt(7, disc.getTurn());
-        preparedStatement.setInt(8, disc.getFade());
-        preparedStatement.setString(9, disc.getSpecialNotes());
-    }
-
     @Override
     public List<Disc> getAllDiscs() {
         List<Disc> discs = new ArrayList<>();
@@ -151,34 +139,6 @@ public class DiscDAOImpl implements DiscDAO {
             closeAllResources(connection, preparedStatement, rs);
         }
         return null;
-    }
-
-    private void closeAllResources(Connection connection, PreparedStatement preparedStatement, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                logger.error("Error closing ResultSet", e);
-            }
-        }
-        miniCloseHelper(connection, preparedStatement);
-    }
-
-    private void miniCloseHelper(Connection connection, PreparedStatement preparedStatement) {
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                logger.error("Error closing PreparedStatement", e);
-            }
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error("Error closing Connection", e);
-            }
-        }
     }
 
     @Override
@@ -299,6 +259,47 @@ public class DiscDAOImpl implements DiscDAO {
         }
         logger.info("No disc deleted with ID: {}", discId);
         return false;
+    }
+
+    // HELPER METHODS
+    private void discStatementGenerator(Disc disc, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, disc.getManufacturer());
+        preparedStatement.setString(2, disc.getMold());
+        preparedStatement.setString(3, disc.getColor());
+        preparedStatement.setInt(4, disc.getWeight());
+        preparedStatement.setInt(5, disc.getSpeed());
+        preparedStatement.setInt(6, disc.getGlide());
+        preparedStatement.setInt(7, disc.getTurn());
+        preparedStatement.setInt(8, disc.getFade());
+        preparedStatement.setString(9, disc.getSpecialNotes());
+    }
+
+    private void closeAllResources(Connection connection, PreparedStatement preparedStatement, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                logger.error("Error closing ResultSet", e);
+            }
+        }
+        miniCloseHelper(connection, preparedStatement);
+    }
+
+    private void miniCloseHelper(Connection connection, PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                logger.error("Error closing PreparedStatement", e);
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("Error closing Connection", e);
+            }
+        }
     }
 
     private Disc extractDiscFromResultSet(ResultSet rs) throws SQLException {
