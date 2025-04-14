@@ -229,7 +229,7 @@ public class DiscDAOImpl implements DiscDAO {
             }
             logger.info("Retrieved {} discs from database with searchDiscs method", discs.size());
         } catch (SQLException e) {
-
+            logger.error("Error while searching for discs", e);
         } finally {
             if (rs != null) {
                 try {
