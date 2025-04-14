@@ -322,6 +322,7 @@ public class DiscDAOImpl implements DiscDAO {
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 logger.info("Deleted disc with ID: {}", discId);
+                return true;
             }
         } catch (SQLException e) {
             logger.error("Error while deleting disc", e);

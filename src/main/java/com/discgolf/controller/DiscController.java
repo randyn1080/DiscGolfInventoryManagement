@@ -39,7 +39,7 @@ public class DiscController {
 
         app.get("/discs",this::getAllDiscs);
         app.get("/discs/{id}", this::getDiscById);
-        app.get("/discs/search", this::getSearchDisc);
+        app.get("/discs/search", this::getSearchDisc); // not working
         app.post("/discs/search", this::postSearchDisc);
         app.post("/discs", this::createDisc);
         app.put("/discs/{id}", this::updateDisc);
@@ -179,7 +179,7 @@ public class DiscController {
             } else {
                 ctx.status(404).json("Disc not found or update failed");
             }
-        }catch(NumberFormatException e) {
+        } catch(NumberFormatException e) {
             logger.error("Controller: Invalid Disc ID format", e);
             ctx.status(400).json("Invalid Disc ID format");
         } catch (Exception e) {
