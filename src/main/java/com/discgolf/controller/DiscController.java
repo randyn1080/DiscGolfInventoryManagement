@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class DiscController {
-    private static Logger logger = LoggerFactory.getLogger(DiscController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DiscController.class);
     private final DiscService discService;
 
     /**
