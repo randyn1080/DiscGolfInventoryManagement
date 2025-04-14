@@ -114,9 +114,9 @@ public class DiscController {
                 builder.manufacturer(manufacturerParam);
             }
 
-            String modelParam = ctx.queryParam("model");
-            if (modelParam != null && !modelParam.isEmpty()) {
-                builder.mold(modelParam);
+            String moldParam = ctx.queryParam("mold");
+            if (moldParam != null && !moldParam.isEmpty()) {
+                builder.mold(moldParam);
             }
 
             String colorParam = ctx.queryParam("color");
