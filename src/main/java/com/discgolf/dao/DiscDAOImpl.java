@@ -26,15 +26,7 @@ public class DiscDAOImpl implements DiscDAO {
         try {
             connection = ConnectionUtil.getConnection();
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, disc.getManufacturer());
-            preparedStatement.setString(2, disc.getMold());
-            preparedStatement.setString(3, disc.getColor());
-            preparedStatement.setInt(4, disc.getWeight());
-            preparedStatement.setInt(5, disc.getSpeed());
-            preparedStatement.setInt(6, disc.getGlide());
-            preparedStatement.setInt(7, disc.getTurn());
-            preparedStatement.setInt(8, disc.getFade());
-            preparedStatement.setString(9, disc.getSpecialNotes());
+            discStatementGenerator(disc, preparedStatement);
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -74,6 +66,18 @@ public class DiscDAOImpl implements DiscDAO {
             }
         }
         return null;
+    }
+
+    private void discStatementGenerator(Disc disc, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, disc.getManufacturer());
+        preparedStatement.setString(2, disc.getMold());
+        preparedStatement.setString(3, disc.getColor());
+        preparedStatement.setInt(4, disc.getWeight());
+        preparedStatement.setInt(5, disc.getSpeed());
+        preparedStatement.setInt(6, disc.getGlide());
+        preparedStatement.setInt(7, disc.getTurn());
+        preparedStatement.setInt(8, disc.getFade());
+        preparedStatement.setString(9, disc.getSpecialNotes());
     }
 
     @Override
@@ -144,29 +148,37 @@ public class DiscDAOImpl implements DiscDAO {
         } catch (SQLException e) {
             logger.error("Error while retrieving disc", e);
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing ResultSet", e);
-                }
-            }
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing PreparedStatement", e);
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing Connection", e);
-                }
-            }
+            closeAllResources(connection, preparedStatement, rs);
         }
         return null;
+    }
+
+    private void closeAllResources(Connection connection, PreparedStatement preparedStatement, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                logger.error("Error closing ResultSet", e);
+            }
+        }
+        miniCloseHelper(connection, preparedStatement);
+    }
+
+    private void miniCloseHelper(Connection connection, PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                logger.error("Error closing PreparedStatement", e);
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("Error closing Connection", e);
+            }
+        }
     }
 
     @Override
@@ -230,27 +242,7 @@ public class DiscDAOImpl implements DiscDAO {
         } catch (SQLException e) {
             logger.error("Error while searching for discs", e);
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing ResultSet", e);
-                }
-            }
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing PreparedStatement", e);
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing Connection", e);
-                }
-            }
+            closeAllResources(connection, preparedStatement, rs);
         }
         return discs;
     }
@@ -267,15 +259,7 @@ public class DiscDAOImpl implements DiscDAO {
             connection = ConnectionUtil.getConnection();
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, disc.getManufacturer());
-            preparedStatement.setString(2, disc.getMold());
-            preparedStatement.setString(3, disc.getColor());
-            preparedStatement.setInt(4, disc.getWeight());
-            preparedStatement.setInt(5, disc.getSpeed());
-            preparedStatement.setInt(6, disc.getGlide());
-            preparedStatement.setInt(7, disc.getTurn());
-            preparedStatement.setInt(8, disc.getFade());
-            preparedStatement.setString(9, disc.getSpecialNotes());
+            discStatementGenerator(disc, preparedStatement);
             preparedStatement.setInt(10, disc.getDiscID());
 
             int affectedRows = preparedStatement.executeUpdate();
@@ -287,20 +271,7 @@ public class DiscDAOImpl implements DiscDAO {
         } catch (SQLException e) {
             logger.error("Error while updating disc with ID: {}", disc.getDiscID(), e);
         } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    logger.error("Error closing PreparedStatement", e);
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch(SQLException e) {
-                    logger.error("Error closing Connection", e);
-                }
-            }
+            miniCloseHelper(connection, preparedStatement);
         }
         logger.info("No disc updated with ID: {}", disc.getDiscID());
         return false;
