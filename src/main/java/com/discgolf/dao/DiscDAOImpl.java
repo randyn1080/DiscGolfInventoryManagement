@@ -6,7 +6,6 @@ import com.discgolf.util.ConnectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +78,7 @@ public class DiscDAOImpl implements DiscDAO {
 
     @Override
     public List<Disc> getAllDiscs() {
-        List<Disc> discs = new ArrayList<Disc>();
+        List<Disc> discs = new ArrayList<>();
         String sql = "SELECT * FROM discs";
 
         Connection connection = null;
@@ -98,7 +97,7 @@ public class DiscDAOImpl implements DiscDAO {
         } catch (SQLException e) {
             logger.error("Error while retrieving discs", e);
         } finally {
-            // close connection, statement, and resultset
+            // close connection, statement, and result set
             if (rs != null) {
                 try {
                     rs.close();
@@ -311,8 +310,8 @@ public class DiscDAOImpl implements DiscDAO {
     public boolean deleteDisc(int discId) {
         String sql = "DELETE FROM discs WHERE disc_id = ?";
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection;
+        PreparedStatement preparedStatement;
 
         try {
             connection = ConnectionUtil.getConnection();
