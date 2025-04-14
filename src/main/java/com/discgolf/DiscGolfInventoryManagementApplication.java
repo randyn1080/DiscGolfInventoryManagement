@@ -18,6 +18,8 @@ public class DiscGolfInventoryManagementApplication {
         // start the app on port 8080
         app.start(8080);
 
+        String property = System.getProperty("user.dir");
+        System.out.println(property);
         logger.info("Disc Golf Inventory Management Application started on port 8080");
     }
 }
