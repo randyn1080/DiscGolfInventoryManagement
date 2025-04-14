@@ -74,7 +74,7 @@ public class DiscController {
             DiscSearchCriteria.Builder builder = DiscSearchCriteria.builder();
 
             String speedParam = ctx.queryParam("speed");
-            if (!speedParam.isEmpty()) {
+            if (speedParam != null && !speedParam.isEmpty()) {
                 try {
                     builder.speed(Integer.parseInt(speedParam));
                 } catch (NumberFormatException e) {
@@ -83,7 +83,7 @@ public class DiscController {
             }
 
             String glideParam = ctx.queryParam("glide");
-            if (!glideParam.isEmpty()) {
+            if (glideParam != null && !glideParam.isEmpty()) {
                 try {
                     builder.glide(Integer.parseInt(glideParam));
                 } catch (NumberFormatException e) {
@@ -92,7 +92,7 @@ public class DiscController {
             }
 
             String turnParam = ctx.queryParam("turn");
-            if (!turnParam.isEmpty()) {
+            if (turnParam != null && !turnParam.isEmpty()) {
                 try {
                     builder.turn(Integer.parseInt(turnParam));
                 } catch (NumberFormatException e) {
@@ -101,7 +101,7 @@ public class DiscController {
             }
 
             String fadeParam = ctx.queryParam("fader");
-            if (!fadeParam.isEmpty()) {
+            if (fadeParam != null && !fadeParam.isEmpty()) {
                 try {
                     builder.fade(Integer.parseInt(fadeParam));
                 } catch (NumberFormatException e) {
@@ -110,22 +110,22 @@ public class DiscController {
             }
 
             String manufacturerParam = ctx.queryParam("manufacturer");
-            if (!manufacturerParam.isEmpty()) {
+            if (manufacturerParam != null && !manufacturerParam.isEmpty()) {
                 builder.manufacturer(manufacturerParam);
             }
 
             String modelParam = ctx.queryParam("model");
-            if (!modelParam.isEmpty()) {
+            if (modelParam != null && !modelParam.isEmpty()) {
                 builder.mold(modelParam);
             }
 
             String colorParam = ctx.queryParam("color");
-            if (!colorParam.isEmpty()) {
+            if (colorParam != null && !colorParam.isEmpty()) {
                 builder.color(colorParam);
             }
 
             String weightParam = ctx.queryParam("weight");
-            if (!weightParam.isEmpty()) {
+            if (weightParam != null && !weightParam.isEmpty()) {
                 try {
                     builder.weight(Integer.parseInt(weightParam));
                 } catch (NumberFormatException e) {
