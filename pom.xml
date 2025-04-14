@@ -22,14 +22,12 @@
             <version>5.0.1</version>
         </dependency>
 
-        <!-- SLF4J Simple binding for Javalin -->
-        <!--
+        <!-- SLF4J API -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-api</artifactId>
             <version>1.7.36</version>
         </dependency>
-        -->
 
         <!-- Jackson for JSON processing -->
         <dependency>
@@ -61,11 +59,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Logback for logging -->
+        <!-- Logback implementation -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.5</version>
+            <version>1.2.11</version>
+        </dependency>
+
+        <!-- Logback core (required by logback-classic) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.11</version>
         </dependency>
     </dependencies>
 
