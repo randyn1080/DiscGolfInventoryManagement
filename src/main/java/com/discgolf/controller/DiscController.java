@@ -11,6 +11,8 @@ import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class DiscController {
     private static Logger logger = LoggerFactory.getLogger(DiscController.class);
     private final DiscService discService;
@@ -37,7 +39,8 @@ public class DiscController {
 
         app.get("/discs",this::getAllDiscs);
         app.get("/discs/{id}", this::getDiscById);
-        app.post("/discs/search", this::searchDisc);
+        app.get("/discs/search", this::getSearchDisc);
+        app.post("/discs/search", this::postSearchDisc);
         app.post("/discs", this::createDisc);
         app.put("/discs/{id}", this::updateDisc);
         app.delete("discs/{id}", this::deleteDisc);
@@ -66,7 +69,77 @@ public class DiscController {
         }
     }
 
-    private void searchDisc(Context ctx) {
+    private void getSearchDisc(Context ctx) {
+        try {
+            // params are
+            //   Integer speed;
+            //   Integer glide;
+            //   Integer turn;
+            //   Integer fade;
+            //   String manufacturer;
+            //   String mold;
+            //   String color;
+            //   Integer weight;
+            DiscSearchCriteria criteria = new DiscSearchCriteria();
+
+            if (!ctx.pathParam("speed").isEmpty()) {
+                try {
+                    criteria.setSpeed(Integer.parseInt(ctx.pathParam("speed")));
+                } catch (NumberFormatException e) {
+                    logger.warn("Controller: Invalid speed value: {}", ctx.pathParam("speed"));
+                }
+            }
+            if (!ctx.pathParam("glide").isEmpty()) {
+                try {
+                    criteria.setGlide(Integer.parseInt(ctx.pathParam("glide")));
+                } catch (NumberFormatException e) {
+                    logger.warn("Controller: Invalid glide value: {}", ctx.pathParam("glide"));
+                }
+            }
+            if (!ctx.pathParam("turn").isEmpty()) {
+                try {
+                    criteria.setTurn(Integer.parseInt(ctx.pathParam("turn")));
+                } catch (NumberFormatException e) {
+                    logger.warn("Controller: Invalid turn value: {}", ctx.pathParam("turn"));
+                }
+            }
+            if (!ctx.pathParam("fade").isEmpty()) {
+                try {
+                    criteria.setFade(Integer.parseInt(ctx.pathParam("fade")));
+                } catch (NumberFormatException e) {
+                    logger.warn("Controller: Invalid fade value: {}", ctx.pathParam("fade"));
+                }
+            }
+
+            if (!ctx.pathParam("manufacturer").isEmpty()) {
+                criteria.setManufacturer(ctx.pathParam("glide"));
+            }
+
+            if (!ctx.pathParam("mold").isEmpty()) {
+                criteria.setMold(ctx.pathParam("mold"));
+            }
+
+            if (!ctx.pathParam("color").isEmpty()) {
+                criteria.setColor(ctx.pathParam("color"));
+            }
+
+            if (!ctx.pathParam("weight").isEmpty()) {
+                try {
+                    criteria.setWeight(Integer.parseInt(ctx.pathParam("weight")));
+                } catch (NumberFormatException e) {
+                    logger.warn("Controller: Invalid weight value: {}", ctx.pathParam("weight"));
+                }
+            }
+            logger.info("Controller: GET /discs/search with criteria {}", criteria);
+            ctx.json(discService.searchDiscs(criteria));
+
+        } catch (Exception e) {
+            logger.error("Controller: Error searching for discs", e);
+            ctx.status(500).json("Error searching for discs" + e.getMessage());
+        }
+    }
+
+    private void postSearchDisc(Context ctx) {
         try {
             DiscSearchCriteria criteria = ctx.bodyAsClass(DiscSearchCriteria.class);
             logger.info("Controller: POST /discs/search");
