@@ -1,6 +1,3 @@
-CREATE DATABASE disc_inventory;
-USE disc_inventory;
-
 CREATE TABLE discs (
    disc_id INT PRIMARY KEY AUTO_INCREMENT,
    manufacturer VARCHAR(100) NOT NULL,
