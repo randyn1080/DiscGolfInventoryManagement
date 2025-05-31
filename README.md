@@ -55,11 +55,14 @@ cd disc-inventory-management-system
 6. Application will start on http://localhost:8080
 
 ### Option 2: Command Line (Windows)
+
 mvn clean compile
+
 mvn exec:java -Dexec.mainClass="com.discgolf.DiscGolfInventoryManagementApplication"
 
 ### Option 3: Command Line (macOS/Linux/Unix)
 mvn clean compile
+
 mvn exec:java -Dexec.mainClass="com.discgolf.DiscGolfInventoryManagementApplication"
 
 > Note: Commands work on all platforms (Windows, macOS, Linux, Unix)
