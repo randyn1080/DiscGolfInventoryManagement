@@ -1,6 +1,7 @@
 package com.discgolf;
 
 import com.discgolf.controller.DiscController;
+import com.discgolf.util.ConnectionUtil;
 import io.javalin.Javalin;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -10,6 +11,9 @@ public class DiscGolfInventoryManagementApplication {
 
     public static void main(String[] args) {
         logger.info("Starting Disc Golf Inventory Management Application");
+
+        // init db
+        ConnectionUtil.resetTestDatabase();
 
         // create and start the controller
         DiscController controller = new DiscController();
